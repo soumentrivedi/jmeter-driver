@@ -1,3 +1,4 @@
+#!/bin/bash
 #!/bin/sh --
 #
 # Driver for distributed JMeter testing.
@@ -22,8 +23,8 @@
 
 #
 # The environment
-SLAVE_IMAGE=ssankara/jmeter-server
-MASTER_IMAGE=ssankara/jmeter
+SLAVE_IMAGE=santosharakere/jmeter-server
+MASTER_IMAGE=santosharakere/jmeter
 DATADIR=
 JMX_SCRIPT=
 CWD=$(readlink -f .)
@@ -70,13 +71,11 @@ function start_servers() {
 	  mkdir -p ${LOGDIR}
 	
 		# Start the server container
-		docker run --cidfile ${LOGDIR}/cid \
-					-d \
-					-p 0.0.0.0:${HOST_READ_PORT}:1099 \
-					-p 0.0.0.0:${HOST_WRITE_PORT}:60000 \
-					-v ${LOGDIR}:/logs \
-					-v ${DATADIR}:/input_data \
-					${SLAVE_IMAGE} 1>/dev/null 2>&1
+		# docker run --cidfile ${LOGDIR}/cid \
+		docker ps
+	        docker run -d -p 0.0.0.0:${HOST_READ_PORT}:1099 -p 0.0.0.0:${HOST_WRITE_PORT}:60000 -v ${LOGDIR}:/logs -v ${DATADIR}:/input_data ${SLAVE_IMAGE} 1>/dev/null 2>&1
+		docker ps
+
 		err=$?
 		if [[ ${err} -ne 0 ]] ; then
 			echo "Error '${err}' while starting a jmeter server. Quitting"
@@ -193,12 +192,8 @@ server_ips
 # Start the jmeter (client) container and connect to the servers
 LOGDIR=${CWD}/logs/client
 mkdir -p ${LOGDIR}
-docker run --cidfile ${LOGDIR}/cid \
-				-d \
-				-v ${LOGDIR}:/logs \
-				-v ${DATADIR}:/input_data \
-				-v $(dirname ${JMX_SCRIPT}):/scripts \
-				${MASTER_IMAGE} -n -t /scripts/$(basename ${JMX_SCRIPT}) -l /logs/jtl.jtl -LDEBUG -R${SERVER_IPS}
+#docker run --cidfile ${LOGDIR}/cid \
+docker run -d -v ${LOGDIR}:/logs -v ${DATADIR}:/input_data -v $(dirname ${JMX_SCRIPT}):/scripts ${MASTER_IMAGE} -n -t /scripts/$(basename ${JMX_SCRIPT}) -l /logs/jtl.jtl -LDEBUG -R${SERVER_IPS}
 
 # TODO Client must somehow notify host of job completion
 
