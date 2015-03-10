@@ -193,7 +193,11 @@ server_ips
 LOGDIR=${CWD}/logs/client
 mkdir -p ${LOGDIR}
 #docker run --cidfile ${LOGDIR}/cid \
-docker run -d -v ${LOGDIR}:/logs -v ${DATADIR}:/input_data -v $(dirname ${JMX_SCRIPT}):/scripts ${MASTER_IMAGE} -n -t /scripts/$(basename ${JMX_SCRIPT}) -l /logs/jtl.jtl -LDEBUG -R${SERVER_IPS}
+#docker run -d -v ${LOGDIR}:/logs -v ${DATADIR}:/input_data -v $(dirname ${JMX_SCRIPT}):/scripts ${MASTER_IMAGE} -n -t /scripts/$(basename ${JMX_SCRIPT}) -l /logs/jtl.jtl -LDEBUG -R${SERVER_IPS}
+docker run -v ${LOGDIR}:/logs -v ${DATADIR}:/input_data -v $(dirname ${JMX_SCRIPT}):/scripts ${MASTER_IMAGE} -n -t /scripts/$(basename ${JMX_SCRIPT}) -l /logs/jtl.jtl -LDEBUG -R${SERVER_IPS}
+
+# stop all containers once the test is complete
+docker ps -q | xargs docker stop
 
 # TODO Client must somehow notify host of job completion
 
