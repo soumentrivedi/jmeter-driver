@@ -23,6 +23,7 @@
 
 #
 # The environment
+# export DOCKER_HOST=tcp://104.236.28.252:2376
 SLAVE_IMAGE=santosharakere/jmeter-server
 MASTER_IMAGE=santosharakere/jmeter
 DATADIR=
@@ -72,7 +73,6 @@ function start_servers() {
 	
 		# Start the server container
 		# docker run --cidfile ${LOGDIR}/cid \
-		docker ps
 	        docker run -d -p 0.0.0.0:${HOST_READ_PORT}:1099 -p 0.0.0.0:${HOST_WRITE_PORT}:60000 -v ${LOGDIR}:/logs -v ${DATADIR}:/input_data ${SLAVE_IMAGE} 1>/dev/null 2>&1
 		docker ps
 
@@ -83,7 +83,7 @@ function start_servers() {
 		fi
 
 		# Prepare for next server
-	  n=$((${n} + 1))
+	        n=$((${n} + 1))
 		HOST_READ_PORT=$((${HOST_READ_PORT} +  2))
 		HOST_WRITE_PORT=$((${HOST_WRITE_PORT} + 2))
 	done
@@ -192,12 +192,13 @@ server_ips
 # Start the jmeter (client) container and connect to the servers
 LOGDIR=${CWD}/logs/client
 mkdir -p ${LOGDIR}
-#docker run --cidfile ${LOGDIR}/cid \
-#docker run -d -v ${LOGDIR}:/logs -v ${DATADIR}:/input_data -v $(dirname ${JMX_SCRIPT}):/scripts ${MASTER_IMAGE} -n -t /scripts/$(basename ${JMX_SCRIPT}) -l /logs/jtl.jtl -LDEBUG -R${SERVER_IPS}
+# docker run --cidfile ${LOGDIR}/cid \
+# docker run -d -v ${LOGDIR}:/logs -v ${DATADIR}:/input_data -v $(dirname ${JMX_SCRIPT}):/scripts ${MASTER_IMAGE} -n -t /scripts/$(basename ${JMX_SCRIPT}) -l /logs/jtl.jtl -LDEBUG -R${SERVER_IPS}
+echo "docker run -v ${LOGDIR}:/logs -v ${DATADIR}:/input_data -v $(dirname ${JMX_SCRIPT}):/scripts ${MASTER_IMAGE} -n -t /scripts/$(basename ${JMX_SCRIPT}) -l /logs/jtl.jtl -LDEBUG -R${SERVER_IPS}"
 docker run -v ${LOGDIR}:/logs -v ${DATADIR}:/input_data -v $(dirname ${JMX_SCRIPT}):/scripts ${MASTER_IMAGE} -n -t /scripts/$(basename ${JMX_SCRIPT}) -l /logs/jtl.jtl -LDEBUG -R${SERVER_IPS}
 
 # stop all containers once the test is complete
-docker ps -q | xargs docker stop
+# docker ps -q | xargs docker stop
 
 # TODO Client must somehow notify host of job completion
 
