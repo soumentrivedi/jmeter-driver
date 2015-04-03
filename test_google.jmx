@@ -104,12 +104,12 @@
               </elementProp>
               <elementProp name="graphitePort" elementType="Argument">
                 <stringProp name="Argument.name">graphitePort</stringProp>
-                <stringProp name="Argument.value">49166</stringProp>
+                <stringProp name="Argument.value">49154</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
               <elementProp name="rootMetricsPrefix" elementType="Argument">
                 <stringProp name="Argument.name">rootMetricsPrefix</stringProp>
-                <stringProp name="Argument.value">jmeter.</stringProp>
+                <stringProp name="Argument.value">jmeterCloud.</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
               <elementProp name="summaryOnly" elementType="Argument">
