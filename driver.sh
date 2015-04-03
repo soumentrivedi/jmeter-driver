@@ -198,7 +198,7 @@ echo "docker run -v ${LOGDIR}:/logs -v ${DATADIR}:/input_data -v $(dirname ${JMX
 docker run -v ${LOGDIR}:/logs -v ${DATADIR}:/input_data -v $(dirname ${JMX_SCRIPT}):/scripts ${MASTER_IMAGE} -n -t /scripts/$(basename ${JMX_SCRIPT}) -l /logs/jtl.jtl -LDEBUG -R${SERVER_IPS}
 
 # stop all containers once the test is complete
-docker ps -q | xargs docker stop
+docker ps | grep jmeter | awk '{ print $1 }' | xargs docker stop
 
 # TODO Client must somehow notify host of job completion
 
