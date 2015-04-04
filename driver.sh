@@ -13,7 +13,7 @@
 #        Tips -- Look for the following in the client logs
 # 
 #          INFO - Shutdown hook started
-#          DEBUG - jmeter.reporters.ResultCollector: Flushing: /logs/jtl.jtl
+#          DEBUG - jmeter.reporters.ResultCollector: Flushing: /logs/results.csv
 #          INFO  - jmeter.reporters.ResultCollector: Shutdown hook ended
 #
 #        Note the assumed log level for this recipe to work.
@@ -193,9 +193,9 @@ server_ips
 LOGDIR=${CWD}/logs/client
 mkdir -p ${LOGDIR}
 # docker run --cidfile ${LOGDIR}/cid \
-# docker run -d -v ${LOGDIR}:/logs -v ${DATADIR}:/input_data -v $(dirname ${JMX_SCRIPT}):/scripts ${MASTER_IMAGE} -n -t /scripts/$(basename ${JMX_SCRIPT}) -l /logs/jtl.jtl -LDEBUG -R${SERVER_IPS}
-echo "docker run -v ${LOGDIR}:/logs -v ${DATADIR}:/input_data -v $(dirname ${JMX_SCRIPT}):/scripts ${MASTER_IMAGE} -n -t /scripts/$(basename ${JMX_SCRIPT}) -l /logs/jtl.jtl -LDEBUG -R${SERVER_IPS}"
-docker run -v ${LOGDIR}:/logs -v ${DATADIR}:/input_data -v $(dirname ${JMX_SCRIPT}):/scripts ${MASTER_IMAGE} -n -t /scripts/$(basename ${JMX_SCRIPT}) -l /logs/jtl.jtl -LDEBUG -R${SERVER_IPS}
+# docker run -d -v ${LOGDIR}:/logs -v ${DATADIR}:/input_data -v $(dirname ${JMX_SCRIPT}):/scripts ${MASTER_IMAGE} -n -t /scripts/$(basename ${JMX_SCRIPT}) -l /logs/results.csv -LDEBUG -R${SERVER_IPS}
+echo "docker run -v ${LOGDIR}:/logs -v ${DATADIR}:/input_data -v $(dirname ${JMX_SCRIPT}):/scripts ${MASTER_IMAGE} -n -t /scripts/$(basename ${JMX_SCRIPT}) -l /logs/results.csv -LDEBUG -R${SERVER_IPS}"
+docker run -v ${LOGDIR}:/logs -v ${DATADIR}:/input_data -v $(dirname ${JMX_SCRIPT}):/scripts ${MASTER_IMAGE} -n -t /scripts/$(basename ${JMX_SCRIPT}) -l /logs/results.csv -LDEBUG -R${SERVER_IPS}
 
 # stop all containers once the test is complete
 docker ps | grep jmeter | awk '{ print $1 }' | xargs docker stop
