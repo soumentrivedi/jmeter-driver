@@ -71,7 +71,7 @@
               </elementProp>
               <elementProp name="graphitePort" elementType="Argument">
                 <stringProp name="Argument.name">graphitePort</stringProp>
-                <stringProp name="Argument.value">49153</stringProp>
+                <stringProp name="Argument.value">49154</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
               <elementProp name="rootMetricsPrefix" elementType="Argument">
